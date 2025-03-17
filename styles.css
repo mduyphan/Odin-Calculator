@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: proxima-nova, Arial, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+#calculator-container {
+    border: 1rem solid black;
+    background-color: grey;
+    padding-bottom: 16px;
+
+}
+
+#title {
+    font-size: 3rem;
+    color: white;
+    background-color: #04AA6D;
+    padding: 10px;		      
+}
+
+#number-display {
+    height: 50px;
+    background-color: white;
+    width: 254px;
+}
+
+.operation-row,
+.number-boxes,
+#calculator-container,
+.operation-column {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+#number-and-operation-column {
+    display: flex;
+    width: 254px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.number-boxes {
+    flex-wrap: wrap;
+}
+
+
+
+#calculator-container,
+.operation-column {
+    flex-direction: column;
+
+}
+
+
+.button {
+    border: 0.2rem solid black;
+    padding: auto;
+    width: 50px;
+    height: 50px;
+    color: white;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.operation-column {
+    justify-content: start;
+    height: 254px;
+}
+
+.operation-row .button,
+.operation-column .button{
+    background-color:  #38444d;
+}
+
+.button.equal {
+    height: 116px;
+    background-color: orange;
+}
