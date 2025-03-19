@@ -31,6 +31,10 @@ body {
     height: 50px;
     background-color: white;
     width: 254px;
+    font-size: 2rem;
+    display: flex;
+    justify-content: end;
+    align-items: center;    
 }
 
 .operation-row,
