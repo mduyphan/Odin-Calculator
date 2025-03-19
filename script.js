@@ -11,6 +11,8 @@ const operations = document.querySelectorAll(".button.operation");
 const numberButtons = document.querySelectorAll(".number-boxes .button");
 const numberDisplay = document.querySelector("#number-display");
 const negativeButton = document.querySelector(".button.negative");
+const equalButton = document.querySelector(".button.equal");
+const resetButton = document.querySelector(".button.reset");
 // ================
 // Data Definition
 // Operation is one of:
@@ -26,19 +28,19 @@ const negativeButton = document.querySelector(".button.negative");
 // Basic Math Operations Functions
 const add = function(firstNumber, secondNumber) {
    
-    return firstNumber + secondNumber;
+    return Number(firstNumber) + Number(secondNumber);
 };
 
 const subtract = function(firstNumber, secondNumber) {
-    return firstNumber - secondNumber;
+    return Number(firstNumber) - Number(secondNumber);
 };
 
 const multiply = function(firstNumber, secondNumber) {
-    return firstNumber * secondNumber;
+    return Number(firstNumber) * Number(secondNumber);
 };
 
 const divide = function(firstNumber, secondNumber) {
-    return firstNumber / secondNumber;
+    return Number(firstNumber) / Number(secondNumber);
 };
 
 // Operation Number Number -> Number
@@ -49,7 +51,7 @@ const operate = (operation, number1, number2) => {
 	return add(number1, number2);
     case "-":
 	return subtract(number1, number2);
-    case "*":
+    case "x":
 	return multiply(number1, number2);
     case "/":
 	return divide(number1, number2);
@@ -65,7 +67,7 @@ for (let i of numberButtons) {
 	    numberDisplay.textContent += `${i.textContent}`;
 	} else {
 	    numberDisplay.textContent = `${i.textContent}`;
-	    number2 = numberDisplay.textContent;
+	    number2 += numberDisplay.textContent;
 	}
     });
 };
@@ -75,7 +77,10 @@ for (let i of numberButtons) {
 negativeButton.addEventListener("click", () => {
     if (!isNaN(Number(numberDisplay.textContent.at(0)))) {
 	numberDisplay.textContent = `-${numberDisplay.textContent}`;
-    } else {numberDisplay.textContent = numberDisplay.textContent.slice(1)};
+	number1 = numberDisplay.textContent;
+    } else {
+	numberDisplay.textContent = numberDisplay.textContent.slice(1)
+	number1 = numberDisplay.textContent;};
 });
 
 // clickEvent ->
@@ -83,13 +88,33 @@ negativeButton.addEventListener("click", () => {
 for (let i of operations) {
     i.addEventListener("click", () => {
 	if (currentOperation == null) {
-	    number1 = Number(numberDisplay.textContent);
+	    number1 = numberDisplay.textContent;
 	    currentOperation = i.textContent;
-	} else if (number2 !== null) {
-	    numberDisplay.textContent = `${operate(currentOperation, number1, number2)}`
-	} else {
+	// } else if (!(currentOperation == null)) {
+	//     currentOperation = i.textContent;
+	} else if (!(number1 == null)) {
 	    number2 = number1;
-	    number1 = null;
-	}
+	    number1 = numberDisplay.textContent;
+	    numberDisplay.textContent = `${operate(currentOperation, number1, number2)}`;
+	    currentOperation = null;
+	    number1 = numberDisplay.textContent;
+	    number2 = null;
+	};
     })
 };
+
+equalButton.addEventListener("click", () => {
+    if (!(currentOperation == null)) {
+	numberDisplay.textContent = `${operate(currentOperation, number1, number2)}`;
+	currentOperation = null;
+	number1 = numberDisplay.textContent;
+	number2 = null;
+    }
+});
+
+resetButton.addEventListener("click", () => {
+    numberDisplay.textContent = null;
+    currentOperation = null;
+    number1 = null;
+    number2 = null;
+});
