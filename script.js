@@ -65,9 +65,10 @@ for (let i of numberButtons) {
 	if ((numberDisplay.textContent.length <= 13) &&
 	    ((number1 == null) || !(number2 == null))) {
 	    numberDisplay.textContent += `${i.textContent}`;
+	    number2 = numberDisplay.textContent;
 	} else {
 	    numberDisplay.textContent = `${i.textContent}`;
-	    number2 += numberDisplay.textContent;
+	    number2 = numberDisplay.textContent;
 	}
     });
 };
@@ -90,13 +91,14 @@ for (let i of operations) {
 	if (currentOperation == null) {
 	    number1 = numberDisplay.textContent;
 	    currentOperation = i.textContent;
+	    number2 = null;
 	// } else if (!(currentOperation == null)) {
 	//     currentOperation = i.textContent;
 	} else if (!(number1 == null)) {
 	    number2 = number1;
 	    number1 = numberDisplay.textContent;
 	    numberDisplay.textContent = `${operate(currentOperation, number1, number2)}`;
-	    currentOperation = null;
+	    currentOperation = i.textContent;
 	    number1 = numberDisplay.textContent;
 	    number2 = null;
 	};
