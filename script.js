@@ -1,6 +1,7 @@
 // ================
 // Constant
-const restArray = (array) => array.slice(1, array.length);
+const arrayLastElementValue = (array) => array[(array.length - 1)]
+const arrayLastElementPos = (array) => array.length - 1;
 
 let currentOperations = [];
 let singleNumberArray = [];
@@ -29,15 +30,15 @@ const deleteButton = document.querySelector(".button.delete");
 // Basic Math Operations Functions
 const add = function(firstNumber, secondNumber) {
    
-    return Number(firstNumber) + Number(secondNumber);
+    return Math.round((Number(secondNumber) + Number(firstNumber)) * 1000000000000) /1000000000000;
 };
 
 const subtract = function(firstNumber, secondNumber) {
-    return Number(secondNumber) - Number(firstNumber);
+    return Math.round((Number(secondNumber) - Number(firstNumber)) * 1000000000000) /1000000000000;
 };
 
 const multiply = function(firstNumber, secondNumber) {
-    return Number(firstNumber) * Number(secondNumber);
+    return Math.round((Number(secondNumber) * Number(firstNumber)) * 1000000000000) /1000000000000;
 };
 
 const divide = function(firstNumber, secondNumber) {
@@ -61,8 +62,6 @@ const operate = (operation, singleNumberArray, number2) => {
 
 // clickEvent -> "number-display"Element
 // Display the clicked numbers on screen
-let value1;
-let value2;
 const displayValue = (array) => array.join("");
 for (let i of numberButtons) {
     i.addEventListener("click", () => {
@@ -71,8 +70,8 @@ for (let i of numberButtons) {
 	};
 	numberDisplay.textContent =  displayValue(singleNumberArray);
     });
+    
 };
-		      
 
 // clickEvent -> "number-display"Element
 // Append Negative sign at the start of current number value or Remove it from current number on click
@@ -84,13 +83,13 @@ negativeButton.addEventListener("click", () => {
     } else if (singleNumberArray[0] == "-") {
 	singleNumberArray.shift();
 	numberDisplay.textContent = displayValue(singleNumberArray);
-    } else if (numberArray[(numberArray.length - 1)] > 0) {
-	fooNumber = numberArray[(numberArray.length - 1)];
-	numberArray[(numberArray.length - 1)] = "-" + fooNumber;
-	numberDisplay.textContent = numberArray[(numberArray.length - 1)];
-    } else if (numberArray[(numberArray.length - 1)] < 0) {
-	numberArray[(numberArray.length - 1)] = numberArray[(numberArray.length - 1)] * -1;
-	numberDisplay.textContent = numberArray[(numberArray.length - 1)];
+    } else if (arrayLastElementValue(numberArray) > 0) {
+	fooNumber = arrayLastElementValue(numberArray);
+	numberArray[arrayLastElementPos(numberArray)] = "-" + fooNumber;
+	numberDisplay.textContent = arrayLastElementValue(numberArray);
+    } else if (arrayLastElementValue(numberArray) < 0) {
+	numberArray[arrayLastElementPos(numberArray)] = arrayLastElementValue(numberArray) * -1;
+	numberDisplay.textContent = arrayLastElementValue(numberArray);
     } else {
 	console.log("Invalid Input! Must enter number before use");
     };
@@ -116,10 +115,10 @@ for (let i of operations) {
 	} else {
 	    console.log(`Current Operation is ${currentOperations}`);
 	    console.log("All numbers present, begin calculation");
-	    numberArray.push(operate(currentOperations[(currentOperations.length - 1)], displayValue(singleNumberArray), numberArray[(numberArray.length - 1)]));
+	    numberArray.push(operate(currentOperations[(currentOperations.length - 1)], displayValue(singleNumberArray), arrayLastElementValue(numberArray)));
 	    currentOperations.push(i.textContent);
 	    console.log(`Current Operation is ${currentOperations}`);
-	    numberDisplay.textContent = numberArray[(numberArray.length - 1)];
+	    numberDisplay.textContent = arrayLastElementValue(numberArray);
 	    singleNumberArray = [];
 	    numberArray.shift();
 	}
@@ -133,8 +132,8 @@ equalButton.addEventListener("click", () => {
     } else if ((singleNumberArray.length > 0) && (numberArray.length > 0)) {
 	console.log(`Current Operation is ${currentOperations}`);
 	console.log("Begin calculation");
-	numberArray.push(operate(currentOperations[(currentOperations.length - 1)], displayValue(singleNumberArray), numberArray[(numberArray.length - 1)]));
-	numberDisplay.textContent = numberArray[(numberArray.length - 1)];
+	numberArray.push(operate(currentOperations[(currentOperations.length - 1)], displayValue(singleNumberArray), arrayLastElementValue(numberArray)));
+	numberDisplay.textContent = arrayLastElementValue(numberArray);
 	singleNumberArray = [];
 	currentOperations = [];
     };
@@ -149,22 +148,29 @@ resetButton.addEventListener("click", () => {
 });
 
 // Decimal Function
-
+decimalButton.addEventListener("click", () => {
+    let textNumberArray;
+    if (numberDisplay.textContent.at((numberDisplay.textContent.length - 1)) == ".") {
+	console.log("Invalid Input!");
+    } else if ((singleNumberArray.length == 0) && (currentOperations.length == 0)
+	       && (numberDisplay.textContent.length == 0)) {
+	console.log("Invalid Input!");
+    } else if (numberDisplay.textContent == displayValue(singleNumberArray)) {
+	singleNumberArray.push(".");
+	numberDisplay.textContent = displayValue(singleNumberArray);
+    }; 
+});
 
 // Delete Function
 deleteButton.addEventListener("click", () => {
     let textNumberArray;
     if (numberDisplay.textContent == displayValue(singleNumberArray)) {
-	console.log("cond1");
-	console.log(singleNumberArray);
 	singleNumberArray.pop();
-	console.log(singleNumberArray);
 	numberDisplay.textContent = displayValue(singleNumberArray);
-	console.log(numberDisplay.textContent);
-    } else if (numberDisplay.textContent == numberArray[(numberArray.length - 1)]) {
-	textNumberArray = String(numberArray[(numberArray.length - 1)]).split("");
+    } else if (numberDisplay.textContent == arrayLastElementValue(numberArray)) {
+	textNumberArray = String(arrayLastElementValue(numberArray)).split("");
 	textNumberArray.pop();
-	numberDisplay.textContent = Number(textNumberArray.join(""));
-	numberArray[(numberArray.length - 1)] = numberDisplay.textContent;
+	numberDisplay.textContent = textNumberArray.join("");
+	numberArray[arrayLastElementPos(numberArray)] = numberDisplay.textContent;
     };
 });
