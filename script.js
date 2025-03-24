@@ -7,11 +7,13 @@ let singleNumberArray = [];
 let numberArray = [];
 
 const operations = document.querySelectorAll(".button.operation");
-const numberButtons = document.querySelectorAll(".number-boxes .button");
+const numberButtons = document.querySelectorAll(".button.number");
 const numberDisplay = document.querySelector("#number-display");
 const negativeButton = document.querySelector(".button.negative");
 const equalButton = document.querySelector(".button.equal");
 const resetButton = document.querySelector(".button.reset");
+const decimalButton = document.querySelector(".button.decimal");
+const deleteButton = document.querySelector(".button.delete");
 // ================
 // Data Definition
 // Operation is one of:
@@ -124,6 +126,7 @@ for (let i of operations) {
     })
 };
 
+// Equal Operation
 equalButton.addEventListener("click", () => {
     if ((singleNumberArray.length == 0) && (currentOperations.length == 0)) {
 	console.log("Invalid Input! Both Numbers and Operation must be present");
@@ -137,9 +140,31 @@ equalButton.addEventListener("click", () => {
     };
 });
 
+// Reset Button
 resetButton.addEventListener("click", () => {
     currentOperations = [];
     singleNumberArray = [];
     numberArray = [];
     numberDisplay.textContent = displayValue(singleNumberArray);
+});
+
+// Decimal Function
+
+
+// Delete Function
+deleteButton.addEventListener("click", () => {
+    let textNumberArray;
+    if (numberDisplay.textContent == displayValue(singleNumberArray)) {
+	console.log("cond1");
+	console.log(singleNumberArray);
+	singleNumberArray.pop();
+	console.log(singleNumberArray);
+	numberDisplay.textContent = displayValue(singleNumberArray);
+	console.log(numberDisplay.textContent);
+    } else if (numberDisplay.textContent == numberArray[(numberArray.length - 1)]) {
+	textNumberArray = String(numberArray[(numberArray.length - 1)]).split("");
+	textNumberArray.pop();
+	numberDisplay.textContent = Number(textNumberArray.join(""));
+	numberArray[(numberArray.length - 1)] = numberDisplay.textContent;
+    };
 });
