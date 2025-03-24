@@ -70,8 +70,20 @@ for (let i of numberButtons) {
 	};
 	numberDisplay.textContent =  displayValue(singleNumberArray);
     });
-    
+    numberDisplay.textContent =  displayValue(singleNumberArray);
 };
+
+document.addEventListener('keydown', function(event) {
+    if (event.key >= '0' && event.key <= '9') {
+        if (singleNumberArray.length <= 12) {
+	    singleNumberArray.push(event.key);
+	    console.log(event.key);
+	    numberDisplay.textContent =  displayValue(singleNumberArray);
+	};
+	numberDisplay.textContent =  displayValue(singleNumberArray);
+    };
+});
+
 
 // clickEvent -> "number-display"Element
 // Append Negative sign at the start of current number value or Remove it from current number on click
